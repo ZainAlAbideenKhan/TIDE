@@ -1,0 +1,15 @@
+MODEL_INPUT_SIZE = 256
+
+CONFIDENCE_THRESHOLD = 0.4
+
+DECAY_FACTOR = 0.9
+
+ARM_RAISE_ANGLE = 60.0        # degrees
+CROUCH_RATIO_THRESH = 0.5
+MOTION_SPEED_THRESH = 0.6
+
+POSE_RISK_WEIGHTS = {
+    "arm_raise": 0.4,
+    "crouch": 0.3,
+    "motion": 0.3
+}
