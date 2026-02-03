@@ -1,1 +1,7 @@
+.gitignore
 test_pose_module.py
+test_face_module.py
+test_state_machine.py
+__pycache__/
+**/__pycache__/
+database/*
