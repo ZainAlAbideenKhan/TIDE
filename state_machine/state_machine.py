@@ -56,6 +56,7 @@ class StateMachine:
     self.eval_start_time = None
     self.locked_target = None
     self.locked_score = None
+    self.state = SystemState.MONITORING
 
   def _state_output(self, threat_data):
     """
