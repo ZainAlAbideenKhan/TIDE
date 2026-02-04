@@ -1,0 +1,95 @@
+.turret-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Shared gun styles */
+.gun {
+  position: absolute;
+  transform-origin: center center;
+  will-change: transform;
+  transition: transform 0.08s linear;
+  
+}
+
+.gun img {
+  display: block;
+  max-width: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* TOP VIEW */
+.top-view {
+  top: 40px;
+  left: 50%;
+  width: 220px;
+  transform: translateX(-50%);
+}
+
+/* SIDE VIEW */
+.side-view {
+  bottom: 40px;
+  left: 50%;
+  width: 300px;
+  transform: translateX(-50%);
+}
+
+/* Shared gun styles */
+.gun {
+  position: absolute;
+  will-change: transform;
+  transition: transform 0.08s linear;
+}
+
+/* TOP VIEW (yaw hinge near back of gun) */
+.top-view {
+  top: 40px;
+  left: 50%;
+  width: min(40vw, 260px);
+  transform-origin: 50% 70%;
+}
+
+/* SIDE VIEW (pitch hinge at rear bottom) */
+.side-view {
+  bottom: 40px;
+  left: 50%;
+  width: min(55vw, 360px);
+  transform-origin: 15% 85%;
+}
+
+.gun img {
+  display: block;
+  width: 100%;
+  filter:
+    drop-shadow(0 8px 18px rgba(0,0,0,0.6))
+    contrast(1.05)
+    saturate(1.1);
+}
+
+.side-view img {
+  filter:
+    drop-shadow(0 10px 25px rgba(0,0,0,0.7))
+    brightness(1.05);
+}
+
+.top-view {
+  transition: transform 0.07s linear;
+}
+
+.side-view {
+  transition: transform 0.1s ease-out;
+}
+
+.turret-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0) 40%,
+    rgba(0,0,0,0.55) 100%
+  );
+}

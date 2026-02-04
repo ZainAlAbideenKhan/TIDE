@@ -6,6 +6,7 @@ import sys, os, time, cv2, tkinter as tk
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, PROJECT_ROOT)
 
+
 from pose_module.pose_module import PoseModule
 from face_module import FaceRecognizer
 from threat_scorer.threat_module import ThreatModule
@@ -17,6 +18,9 @@ from gui.control_panel import ControlPanel
 from gui.config import WINDOW_TITLE, WINDOW_SIZE
 from gui.theme import THEME
 
+from gun_api.gun_ws_server import GunWebSocketServer
+gun_server = GunWebSocketServer()
+gun_server.start()
 # ---- init core modules ----
 pose = PoseModule("pose_module/model/movenet_thunder.tflite")
 face = FaceRecognizer(db_path="database")
@@ -220,6 +224,38 @@ def update():
     "target_source": target_source
   })
 
+  # ---- SEND TARGET COORDINATES ----
+  if gun_status == "TRACKING" and threat_data.get("pose_keypoints") is not None:
+    kp = threat_data["pose_keypoints"][0][0]
+
+    # indices
+    LEFT_SHOULDER = 5
+    RIGHT_SHOULDER = 6
+    NOSE = 0
+
+    h, w, _ = frame.shape
+
+    ls_y, ls_x, ls_c = kp[LEFT_SHOULDER]
+    rs_y, rs_x, rs_c = kp[RIGHT_SHOULDER]
+
+    if ls_c > 0.4 and rs_c > 0.4:
+      img_x = ((ls_x + rs_x) / 2) * w
+      img_y = ((ls_y + rs_y) / 2) * h
+    else:
+      n_y, n_x, n_c = kp[NOSE]
+      if n_c < 0.4:
+        img_x = img_y = None
+      else:
+        img_x = n_x * w
+        img_y = n_y * h
+
+    if img_x is not None:
+      gun_server.send_target(
+        img_x=img_x,
+        img_y=img_y,
+        frame_w=w,
+        frame_h=h
+      )
   # ---- draw face bounding box ----
   draw_face_bbox(
     frame,
