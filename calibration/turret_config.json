@@ -1,0 +1,7 @@
+{
+    "angle": 90,
+    "center_angle": 90,
+    "kp": 0.01,
+    "min_angle": 50,
+    "max_angle": 130
+}
